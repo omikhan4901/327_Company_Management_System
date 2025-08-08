@@ -1,0 +1,65 @@
+[
+    {
+        "id": "8b48e825-caa2-4a0f-a037-b1b58fa4082f",
+        "title": "Design system diagram",
+        "description": "Draw and finalize UML sequence diagram",
+        "assigned_to": "mohaimen",
+        "deadline": "2025-08-15",
+        "status": "In Progress",
+        "created_at": "2025-08-07 09:42:17"
+    },
+    {
+        "id": "0397a2f9-4e3a-4879-aa27-4f3998dd626d",
+        "title": "Write unit tests",
+        "description": "Create pytest test suite for Payroll",
+        "assigned_to": "john",
+        "deadline": "2025-08-10",
+        "status": "Not Started",
+        "created_at": "2025-08-07 10:08:29"
+    },
+    {
+        "id": "37ed4710-f3bc-401b-bd21-dadb78192a8d",
+        "title": "Write unit tests",
+        "description": "Create pytest test suite for Payroll",
+        "assigned_to": "john",
+        "deadline": "2025-08-10",
+        "status": "Not Started",
+        "created_at": "2025-08-07 10:12:21"
+    },
+    {
+        "id": "d42638fa-b0c4-4625-9d81-f4e1cd71622f",
+        "title": "Write unit tests",
+        "description": "Create pytest test suite for Payroll",
+        "assigned_to": "john",
+        "deadline": "2025-08-10",
+        "status": "Not Started",
+        "created_at": "2025-08-08 15:44:35"
+    },
+    {
+        "id": "ec2b3316-8840-49ff-a2ab-35ebb116d42a",
+        "title": "Write unit tests",
+        "description": "Create pytest test suite for Payroll",
+        "assigned_to": "john",
+        "deadline": "2025-08-10",
+        "status": "Not Started",
+        "created_at": "2025-08-08 15:59:02"
+    },
+    {
+        "id": "89b2b386-2e57-49cf-82ad-04141c73853c",
+        "title": "Write unit tests",
+        "description": "Create pytest test suite for Payroll",
+        "assigned_to": "john",
+        "deadline": "2025-08-10",
+        "status": "Not Started",
+        "created_at": "2025-08-08 16:14:32"
+    },
+    {
+        "id": "fd8b2915-6436-423d-b43b-b295db4d7f86",
+        "title": "Write unit tests",
+        "description": "Create pytest test suite for Payroll",
+        "assigned_to": "john",
+        "deadline": "2025-08-10",
+        "status": "Not Started",
+        "created_at": "2025-08-08 16:16:33"
+    }
+]
