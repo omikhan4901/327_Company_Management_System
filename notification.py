@@ -58,6 +58,10 @@ class InAppNotifier(NotificationObserver):
         self._save_logs()
         print(f"[In-App] ({recipient}) {message}")
 
+    # Added method for compatibility with TaskManager and PayrollManager
+    def send_notification(self, message, recipient):
+        self.update(message, recipient)
+
 
 class EmailNotifier(NotificationObserver):
     def __init__(self, subject: NotificationSubject):

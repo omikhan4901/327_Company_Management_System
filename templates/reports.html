@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports - {{ username }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin:0; padding:0; }
+        header { background-color:#1f2937; color:#fff; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
+        header h1 { margin:0; font-size:24px; }
+        nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:bold; }
+        nav a:hover { text-decoration:underline; }
+        main { padding:30px; }
+        h2 { margin-bottom:20px; }
+        table { width:100%; border-collapse:collapse; background-color:#fff; border-radius:10px; overflow:hidden; box-shadow:0 0 10px rgba(0,0,0,0.05); margin-bottom:30px; }
+        table th, table td { padding:12px; text-align:center; border-bottom:1px solid #ddd; }
+        table th { background-color:#1f2937; color:#fff; }
+        table tr:last-child td { border-bottom:none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reports</h1>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Task Report by Employee</h2>
+        {% for emp, tasks in task_report.items() %}
+        <h3>{{ emp }}</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Deadline</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.deadline }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No task data available.</p>
+        {% endfor %}
+
+        <h2>Total Hours Worked by Employee</h2>
+        <table>
+            <tr>
+                <th>Employee</th>
+                <th>Total Hours</th>
+            </tr>
+            {% for emp, hours in total_hours.items() %}
+            <tr>
+                <td>{{ emp }}</td>
+                <td>{{ hours }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="2">No attendance data available.</td></tr>
+            {% endfor %}
+        </table>
+
+        <h2>Total Pay by Employee</h2>
+        <table>
+            <tr>
+                <th>Employee</th>
+                <th>Total Pay</th>
+            </tr>
+            {% for emp, pay in total_pay.items() %}
+            <tr>
+                <td>{{ emp }}</td>
+                <td>{{ pay }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="2">No payroll data available.</td></tr>
+            {% endfor %}
+        </table>
+    </main>
+</body>
+</html>

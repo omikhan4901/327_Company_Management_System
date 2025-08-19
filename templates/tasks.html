@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager - {{ username }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin:0; padding:0; }
+        header { background-color:#1f2937; color:#fff; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
+        header h1 { margin:0; font-size:24px; }
+        nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:bold; }
+        nav a:hover { text-decoration:underline; }
+        main { padding:30px; }
+        h2 { color:#1f2937; }
+        form { background-color:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.05); margin-bottom:30px; }
+        form label { display:block; margin-top:10px; font-weight:bold; }
+        form input, form select, form textarea { width:100%; padding:8px; margin-top:5px; border-radius:5px; border:1px solid #ccc; }
+        form button { margin-top:15px; padding:10px 20px; background-color:#2563eb; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+        form button:hover { background-color:#1e40af; }
+        table { width:100%; border-collapse:collapse; background-color:#fff; border-radius:10px; overflow:hidden; box-shadow:0 0 10px rgba(0,0,0,0.05); }
+        table th, table td { padding:10px; text-align:left; border-bottom:1px solid #ddd; }
+        table th { background-color:#f3f4f6; }
+        .message { color: green; margin-bottom:20px; }
+        a { color:#2563eb; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Task Manager</h1>
+        <nav>
+            <a href="/dashboard">Dashboard</a> | <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Welcome, {{ username }} ({{ role }})</h2>
+
+        {% if message %}
+        <p class="message">{{ message }}</p>
+        {% endif %}
+
+        <h2>Create Task</h2>
+        <form method="post" action="/tasks/create">
+            <label>Title:</label>
+            <input type="text" name="title" required>
+            
+            <label>Description:</label>
+            <textarea name="description" rows="3" required></textarea>
+            
+            <label>Assign To (Username):</label>
+            <input type="text" name="assigned_to" required>
+            
+            <label>Deadline (YYYY-MM-DD):</label>
+            <input type="text" name="deadline" required>
+            
+            <label>Task Type:</label>
+            <select name="task_type">
+                <option value="Task">Normal</option>
+                <option value="HighPriorityTask">High Priority</option>
+                <option value="DeadlineSensitiveTask">Deadline Sensitive</option>
+            </select>
+
+            <button type="submit">Create Task</button>
+        </form>
+
+        <h2>Your Tasks</h2>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Created At</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.deadline }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.created_at }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5">No tasks assigned yet.</td></tr>
+            {% endfor %}
+        </table>
+    </main>
+</body>
+</html>

@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+    background: #f4f6f9;
+    color: #333;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background: #2c3e50;
+    color: white;
+    padding: 1rem;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 3rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    margin-top: 1.5rem;
+    padding: 0.7rem;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background: #2980b9;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1f6391;
+}
+
+.dashboard {
+    padding: 2rem;
+}
+
+.dashboard-links a {
+    display: inline-block;
+    margin: 1rem;
+    padding: 1rem 2rem;
+    background: #3498db;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+}
+
+.dashboard-links a:hover {
+    background: #217dbb;
+}
+
+.attendance {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0,0,0,0.1);
+}
+
+.attendance table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.attendance th, .attendance td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.attendance th {
+    background: #3498db;
+    color: white;
+}
+
+.message {
+    margin-top: 1rem;
+    color: green;
+    font-weight: bold;
+}

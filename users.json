@@ -10,5 +10,33 @@
     "admin2": {
         "password_hash": "9dbd5c893b5b573a1aa909c8cade58df194310e411c590d9fb0d63431841fd67",
         "role": "Admin"
+    },
+    "Omi": {
+        "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+        "role": "manager"
+    },
+    "Susmit": {
+        "password_hash": "35a9e381b1a27567549b5f8a6f783c167ebf809f1c4d6a9e367240484d8ce281",
+        "role": "employee"
+    },
+    "Alvee": {
+        "password_hash": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+        "role": "employee"
+    },
+    "employee": {
+        "password_hash": "9d586dc0a48a2ed04839e0a69750893438e8d379e2fa45e94e82c5b3abb00daa",
+        "role": "employee"
+    },
+    "admin3": {
+        "password_hash": "4fc2b5673a201ad9b1fc03dcb346e1baad44351daa0503d5534b4dfdcc4332e0",
+        "role": "admin"
+    },
+    "admin7": {
+        "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+        "role": "admin"
+    },
+    "manager7": {
+        "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+        "role": "manager"
     }
 }

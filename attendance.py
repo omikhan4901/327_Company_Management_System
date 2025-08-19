@@ -1,5 +1,3 @@
-# attendance.py
-
 import uuid
 import os
 import json
@@ -46,12 +44,18 @@ class AttendanceEntry:
         )
 
     def hours_worked(self):
-        if not self.check_in or not self.check_out:
+        """
+        Safely compute hours worked. Return 0 if check_in or check_out is missing or invalid.
+        """
+        try:
+            if not self.check_in or not self.check_out:
+                return 0
+            in_time = datetime.strptime(self.check_in.strip(), "%H:%M:%S")
+            out_time = datetime.strptime(self.check_out.strip(), "%H:%M:%S")
+            delta = out_time - in_time
+            return round(delta.total_seconds() / 3600, 2)
+        except Exception:
             return 0
-        in_time = datetime.strptime(self.check_in, "%H:%M:%S")
-        out_time = datetime.strptime(self.check_out, "%H:%M:%S")
-        delta = out_time - in_time
-        return round(delta.total_seconds() / 3600, 2)
 
 # ----------------------
 # Attendance Manager
@@ -104,6 +108,9 @@ class AttendanceManager:
             if entry.employee_id == employee_id and entry.date == today:
                 if entry.check_out:
                     return False, "Already checked out today."
+                # Ensure check_in exists before checkout
+                if not entry.check_in:
+                    return False, "Cannot check out without check-in."
                 entry.check_out = current_time
                 self._save_entries()
 
@@ -127,51 +134,60 @@ class AttendanceManager:
 # Adapter Design Pattern
 # ----------------------
 
-# Target Interface
-class AttendanceAdapter(ABC):
-    @abstractmethod
-    def get_hours_worked(self, employee_id):
-        pass
-
-
-# Adaptee (already implemented above): AttendanceManager
-# -> It provides get_total_hours_for_employee(), but client only understands get_hours_worked()
-
-
-# Adapter: implements Target and delegates to Adaptee
 class AttendanceManagerAdapter(AttendanceAdapter):
     def __init__(self, attendance_manager: AttendanceManager):
         self.attendance_manager = attendance_manager
 
     def get_hours_worked(self, employee_id):
-        # Adapt the interface: request() -> specificRequest()
         return self.attendance_manager.get_total_hours_for_employee(employee_id)
-    
+
 # ----------------------
 # Client Test
 # ----------------------
 
 def client_code(adapter: AttendanceAdapter, employee_id: str):
-    # The client only knows about the Adapter interface, not the AttendanceManager
     hours = adapter.get_hours_worked(employee_id)
     print(f"[CLIENT] Employee {employee_id} worked {hours} hours in total.")
 
 
 if __name__ == "__main__":
-    # Create the adaptee (real system)
     manager = AttendanceManager()
 
-    # Simulate some check-in/check-out
     manager.check_in("mohaimen")
     manager.check_out("mohaimen")
 
     manager.check_in("john")
     manager.check_out("john")
 
-    # Wrap the adaptee in an adapter
     adapter = AttendanceManagerAdapter(manager)
 
-    # Client uses the adapter interface, not the raw manager
     client_code(adapter, "mohaimen")
     client_code(adapter, "john")
+
+    # Add this at the bottom of attendance.py
+
+def format_records(records):
+    """
+    Convert raw attendance records into a display-friendly format.
+    Each record includes hours worked.
+    """
+    formatted = []
+    for r in records:
+        check_in = r.get("check_in")
+        check_out = r.get("check_out")
+        if check_in and check_out:
+            from datetime import datetime
+            in_time = datetime.strptime(check_in, "%H:%M:%S")
+            out_time = datetime.strptime(check_out, "%H:%M:%S")
+            delta = out_time - in_time
+            hours = round(delta.total_seconds() / 3600, 2)
+        else:
+            hours = 0
+        formatted.append({
+            "date": r.get("date"),
+            "check_in": check_in,
+            "check_out": check_out,
+            "hours": hours
+        })
+    return formatted
 

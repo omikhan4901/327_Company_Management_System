@@ -1,9 +1,58 @@
 [
     {
-        "id": "ced449ed-57fd-4a06-a175-4a82d34b34df",
+        "id": "da848ac5-836a-4414-94a1-aff362a9fbcc",
         "employee_id": "john",
         "date": "2025-08-08",
         "check_in": "15:59:02",
         "check_out": "15:59:02"
+    },
+    {
+        "id": "34e2668f-3006-4358-a72d-2a8c73569a0f",
+        "employee_id": "Omi",
+        "date": "2025-08-19",
+        "check_in": "23:35:47",
+        "check_out": "23:36:12"
+    },
+    {
+        "id": "24f8ef9d-e798-44b5-afd1-768c35143618",
+        "employee_id": "Susmit",
+        "date": "2025-08-19",
+        "check_in": "23:44:41",
+        "check_out": "23:45:02"
+    },
+    {
+        "id": "1209d0dd-98e3-4d1f-b08f-62c454afc3bc",
+        "employee_id": "Alvee",
+        "date": "2025-08-19",
+        "check_in": "23:49:23",
+        "check_out": "23:50:02"
+    },
+    {
+        "id": "04366c4a-de83-4b2b-ab32-90189943455b",
+        "employee_id": "admin3",
+        "date": "2025-08-19",
+        "check_in": "23:58:37",
+        "check_out": "23:59:03"
+    },
+    {
+        "id": "c55a4af7-2b9f-46f3-bf8c-0272f809dc76",
+        "employee_id": "Omi",
+        "date": "2025-08-20",
+        "check_in": "00:12:21",
+        "check_out": "00:13:23"
+    },
+    {
+        "id": "e285087d-f066-4db3-821a-1cf6c866da36",
+        "employee_id": "admin7",
+        "date": "2025-08-20",
+        "check_in": "01:44:42",
+        "check_out": "01:46:23"
+    },
+    {
+        "id": "82530016-81f1-49a6-b938-14351f577bf1",
+        "employee_id": "manager7",
+        "date": "2025-08-20",
+        "check_in": "01:48:04",
+        "check_out": null
     }
 ]

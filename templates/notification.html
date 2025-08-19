@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications - {{ username }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin:0; padding:0; }
+        header { background-color:#1f2937; color:#fff; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
+        header h1 { margin:0; font-size:24px; }
+        nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:bold; }
+        nav a:hover { text-decoration:underline; }
+        main { padding:30px; }
+        table { width:100%; border-collapse:collapse; margin-top:20px; background-color:#fff; box-shadow:0 0 10px rgba(0,0,0,0.05); }
+        th, td { padding:12px 15px; text-align:center; border-bottom:1px solid #e5e7eb; }
+        th { background-color:#2563eb; color:#fff; }
+        tr:last-child td { border-bottom:none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Notifications</h1>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Welcome, {{ username }} ({{ role }})</h2>
+        {% if notifications %}
+        <table>
+            <tr>
+                <th>Time</th>
+                <th>Message</th>
+            </tr>
+            {% for n in notifications %}
+            <tr>
+                <td>{{ n.timestamp }}</td>
+                <td>{{ n.message }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No notifications yet.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

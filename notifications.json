@@ -18,5 +18,70 @@
         "to": "mohaimen",
         "message": "Your payslip for August is generated.",
         "timestamp": "2025-08-17 20:16:07"
+    },
+    {
+        "to": "Omi",
+        "message": "Check-in successful at 00:12:21",
+        "timestamp": "2025-08-20 00:12:21"
+    },
+    {
+        "to": "Omi",
+        "message": "Check-out successful at 00:13:23",
+        "timestamp": "2025-08-20 00:13:23"
+    },
+    {
+        "to": "Omi",
+        "message": "Already checked in today.",
+        "timestamp": "2025-08-20 00:43:35"
+    },
+    {
+        "to": "Omi",
+        "message": "Already checked out today.",
+        "timestamp": "2025-08-20 00:43:36"
+    },
+    {
+        "to": "Omi",
+        "message": "Payslip for 1 10 generated. Net salary: BDT 50.31",
+        "timestamp": "2025-08-20 00:50:23"
+    },
+    {
+        "to": "Omi",
+        "message": "Payslip for 1 10 generated. Net salary: BDT 50.31",
+        "timestamp": "2025-08-20 00:53:27"
+    },
+    {
+        "to": "Omi",
+        "message": "Payslip for 0 0 generated. Net salary: BDT 3.12",
+        "timestamp": "2025-08-20 00:53:47"
+    },
+    {
+        "to": "Susmit",
+        "message": "You've been assigned a new HighPriorityTask: 'QA' (Deadline: 8/21/2025)",
+        "timestamp": "2025-08-20 01:39:27"
+    },
+    {
+        "to": "admin7",
+        "message": "Check-in successful at 01:44:42",
+        "timestamp": "2025-08-20 01:44:42"
+    },
+    {
+        "to": "Susmit",
+        "message": "You've been assigned a new HighPriorityTask: 'Testing' (Deadline: 8/21/2025)",
+        "timestamp": "2025-08-20 01:45:40"
+    },
+    {
+        "to": "admin7",
+        "message": "Payslip for 5 2022 generated. Net salary: BDT 50.0",
+        "timestamp": "2025-08-20 01:46:10"
+    },
+    {
+        "to": "admin7",
+        "message": "Check-out successful at 01:46:23",
+        "timestamp": "2025-08-20 01:46:23"
+    },
+    {
+        "to": "manager7",
+        "message": "Check-in successful at 01:48:04",
+        "timestamp": "2025-08-20 01:48:04"
     }
 ]
