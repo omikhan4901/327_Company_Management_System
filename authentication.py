@@ -36,18 +36,29 @@ class AuthManager:
     Supports file-based persistence for user storage.
     """
 
-    _instance = None
-    _lock = Lock()
+    __instance = None
+    __lock = Lock()
+    __counter = 0   # instance counter
     _user_file = "users.json"
 
-    def __new__(cls):
-        with cls._lock:
-            if cls._instance is None:
-                cls._instance = super(AuthManager, cls).__new__(cls)
-                cls._instance.users = {}
-                cls._instance.sessions = {}
-                cls._instance._load_users_from_file()
-        return cls._instance
+    # Private constructor
+    def __init__(self):
+        if AuthManager.__instance is not None:
+            raise Exception("This class is a singleton! Use get_instance().")
+        AuthManager.__counter += 1
+        print(f"[INFO] New AuthManager instance created. Total instances: {AuthManager.__counter}")
+        self.users = {}
+        self.sessions = {}
+        self._load_users_from_file()
+
+    # Public static method to get the instance
+    @staticmethod
+    def get_instance():
+        with AuthManager.__lock:
+            if AuthManager.__instance is None:
+                AuthManager.__instance = AuthManager()
+            return AuthManager.__instance
+
 
     def _load_users_from_file(self):
         """

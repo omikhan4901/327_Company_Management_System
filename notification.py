@@ -5,17 +5,34 @@ from datetime import datetime
 import json
 import os
 
+
 class NotificationObserver(ABC):
     @abstractmethod
     def update(self, message: str, recipient: str):
         pass
 
 
+class NotificationSubject:
+    def __init__(self):
+        self._observers = []
+
+    def register_observer(self, observer: "NotificationObserver"):
+        self._observers.append(observer)
+
+    def remove_observer(self, observer: "NotificationObserver"):
+        self._observers.remove(observer)
+
+    def notify_all(self, message, recipient):
+        for observer in self._observers:
+            observer.update(message, recipient)
+
+
 class InAppNotifier(NotificationObserver):
-    def __init__(self, log_file="notifications.json"):
+    def __init__(self, subject: NotificationSubject, log_file="notifications.json"):
         self.notifications = []
         self.log_file = log_file
         self._load_logs()
+        subject.register_observer(self)   # auto-register
 
     def _load_logs(self):
         if os.path.exists(self.log_file):
@@ -43,34 +60,16 @@ class InAppNotifier(NotificationObserver):
 
 
 class EmailNotifier(NotificationObserver):
+    def __init__(self, subject: NotificationSubject):
+        subject.register_observer(self)   # auto-register
+
     def update(self, message, recipient):
         print(f"[Email] To: {recipient} | {message}")
-
-
-class NotificationSubject:
-    def __init__(self):
-        self._observers = []
-
-    def register_observer(self, observer: NotificationObserver):
-        self._observers.append(observer)
-
-    def remove_observer(self, observer: NotificationObserver):
-        self._observers.remove(observer)
-
-    def notify_all(self, message, recipient):
-        for observer in self._observers:
-            observer.update(message, recipient)
 
 
 class NotificationManager:
     def __init__(self):
         self.subject = NotificationSubject()
-
-    def add_notifier(self, notifier: NotificationObserver):
-        self.subject.register_observer(notifier)
-
-    def remove_notifier(self, notifier: NotificationObserver):
-        self.subject.remove_observer(notifier)
 
     def send_notification(self, event_message, recipient):
         self.subject.notify_all(event_message, recipient)

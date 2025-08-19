@@ -1,0 +1,32 @@
+[
+    {
+        "id": "df4a1dcd-744b-4781-a471-c441e8bdc803",
+        "title": "Design system diagram",
+        "description": "Draw and finalize UML sequence diagram",
+        "assigned_to": "mohaimen",
+        "deadline": "2025-08-15",
+        "status": "In Progress",
+        "created_at": "2025-08-17 21:37:59",
+        "type": "Task"
+    },
+    {
+        "id": "b872688e-498b-464a-9e74-308b5dd245b0",
+        "title": "Fix critical bug",
+        "description": "Resolve production outage issue",
+        "assigned_to": "alice",
+        "deadline": "2025-08-12",
+        "status": "Not Started",
+        "created_at": "2025-08-17 21:37:59",
+        "type": "HighPriorityTask"
+    },
+    {
+        "id": "08cbc42d-3150-41c6-adff-f7d486ef98dc",
+        "title": "Submit project proposal",
+        "description": "Finalize and submit project proposal document",
+        "assigned_to": "bob",
+        "deadline": "2025-08-18",
+        "status": "Not Started",
+        "created_at": "2025-08-17 21:37:59",
+        "type": "DeadlineSensitiveTask"
+    }
+]

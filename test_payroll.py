@@ -1,9 +1,9 @@
-from payroll import PayrollManager, DefaultSalaryStrategy, CommissionSalaryStrategy
+from payroll import PayrollManager, ConcreteStrategyA, ConcreteStrategyB
 
 def run_tests():
     pm = PayrollManager()
 
-    print("\n--- Default Strategy (Base + OT) ---")
+    print("\n--- ConcreteStrategyA (Base + OT) ---")
     payslip = pm.generate_payslip(
         employee_id="mohaimen",
         base_salary=50000,
@@ -14,8 +14,8 @@ def run_tests():
     )
     print(payslip)
 
-    print("\n--- Commission Strategy (Sales-Based) ---")
-    pm.set_strategy(CommissionSalaryStrategy(commission_rate=0.2))
+    print("\n--- ConcreteStrategyB (Sales-Based) ---")
+    pm.set_strategy(ConcreteStrategyB(commission_rate=0.2))
     payslip2 = pm.generate_payslip(
         employee_id="john",
         base_salary=30000,

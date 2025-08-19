@@ -1,10 +1,10 @@
-# task_manager.py
-
 from enum import Enum
 import uuid
 from datetime import datetime
 import json
 import os
+from abc import ABC, abstractmethod
+
 
 class TaskStatus(Enum):
     NOT_STARTED = "Not Started"
@@ -12,6 +12,7 @@ class TaskStatus(Enum):
     COMPLETED = "Completed"
 
 
+# ---------------- Base Task Class ----------------
 class Task:
     def __init__(self, title, description, assigned_to, deadline, status=TaskStatus.NOT_STARTED, task_id=None, created_at=None):
         self.task_id = task_id or str(uuid.uuid4())
@@ -35,12 +36,16 @@ class Task:
             "assigned_to": self.assigned_to,
             "deadline": self.deadline,
             "status": self.status.value,
-            "created_at": self.created_at.strftime("%Y-%m-%d %H:%M:%S")
+            "created_at": self.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "type": self.__class__.__name__  # include type for factory reconstruction
         }
 
     @staticmethod
     def from_dict(data):
-        return Task(
+        # Delegate creation to TaskCreator subclasses
+        task_type = data.get("type", "Task")
+        creator = TaskCreator.get_creator(task_type)
+        return creator.create_task(
             title=data["title"],
             description=data["description"],
             assigned_to=data["assigned_to"],
@@ -51,6 +56,56 @@ class Task:
         )
 
 
+# ---------------- Specialized Task Types ----------------
+class HighPriorityTask(Task):
+    def __init__(self, title, description, assigned_to, deadline, status=TaskStatus.NOT_STARTED, task_id=None, created_at=None):
+        super().__init__(title, description, assigned_to, deadline, status, task_id, created_at)
+        self.priority = "High"
+
+
+class DeadlineSensitiveTask(Task):
+    def __init__(self, title, description, assigned_to, deadline, status=TaskStatus.NOT_STARTED, task_id=None, created_at=None):
+        super().__init__(title, description, assigned_to, deadline, status, task_id, created_at)
+        self.priority = "Deadline-Sensitive"
+
+
+# ---------------- Factory Method Pattern ----------------
+class TaskCreator(ABC):
+    @abstractmethod
+    def factory_method(self, title, description, assigned_to, deadline, status, task_id, created_at):
+        pass
+
+    def create_task(self, title, description, assigned_to, deadline, status=TaskStatus.NOT_STARTED, task_id=None, created_at=None):
+        return self.factory_method(title, description, assigned_to, deadline, status, task_id, created_at)
+
+    @staticmethod
+    def get_creator(task_type: str):
+        if task_type == "Task":
+            return BaseTaskCreator()
+        elif task_type == "HighPriorityTask":
+            return HighPriorityTaskCreator()
+        elif task_type == "DeadlineSensitiveTask":
+            return DeadlineSensitiveTaskCreator()
+        else:
+            raise ValueError(f"Unknown task type: {task_type}")
+
+
+class BaseTaskCreator(TaskCreator):
+    def factory_method(self, title, description, assigned_to, deadline, status, task_id, created_at):
+        return Task(title, description, assigned_to, deadline, status, task_id, created_at)
+
+
+class HighPriorityTaskCreator(TaskCreator):
+    def factory_method(self, title, description, assigned_to, deadline, status, task_id, created_at):
+        return HighPriorityTask(title, description, assigned_to, deadline, status, task_id, created_at)
+
+
+class DeadlineSensitiveTaskCreator(TaskCreator):
+    def factory_method(self, title, description, assigned_to, deadline, status, task_id, created_at):
+        return DeadlineSensitiveTask(title, description, assigned_to, deadline, status, task_id, created_at)
+
+
+# ---------------- Task Manager ----------------
 class TaskManager:
     def __init__(self, file_path="tasks.json", notifier=None):
         self.file_path = file_path
@@ -74,13 +129,14 @@ class TaskManager:
         with open(self.file_path, "w") as f:
             json.dump(data, f, indent=4)
 
-    def create_task(self, title, description, assigned_to, deadline):
-        task = Task(title, description, assigned_to, deadline)
+    def create_task(self, title, description, assigned_to, deadline, task_type="Task"):
+        creator = TaskCreator.get_creator(task_type)
+        task = creator.create_task(title, description, assigned_to, deadline)
         self.tasks[task.task_id] = task
         self._save_tasks_to_file()
 
         if self.notifier:
-            msg = f"You've been assigned a new task: '{task.title}' (Deadline: {task.deadline})"
+            msg = f"You've been assigned a new {task_type}: '{task.title}' (Deadline: {task.deadline})"
             self.notifier.send_notification(msg, assigned_to)
 
         return task.task_id

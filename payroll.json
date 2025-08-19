@@ -1,6 +1,6 @@
 [
     {
-        "slip_id": "2940d42a-a297-4733-9277-bfb73ae77541",
+        "slip_id": "2566d21b-41a1-4fc8-9b54-5a5e16c01fea",
         "employee_id": "mohaimen",
         "base_salary": 50000,
         "hours_worked": 160,
@@ -8,11 +8,11 @@
         "salary": 52343.75,
         "month": "August",
         "year": 2025,
-        "strategy": "DefaultSalaryStrategy",
-        "generated_at": "2025-08-07 09:45:43"
+        "strategy": "ConcreteStrategyA",
+        "generated_at": "2025-08-17 20:30:18"
     },
     {
-        "slip_id": "b89eee6a-c328-4b2d-9930-3e5ac2e98b54",
+        "slip_id": "8f17a732-2986-4da8-8bb0-b08a83d23ef2",
         "employee_id": "john",
         "base_salary": 30000,
         "hours_worked": 160,
@@ -20,79 +20,31 @@
         "salary": 35000.0,
         "month": "August",
         "year": 2025,
-        "strategy": "CommissionSalaryStrategy",
-        "generated_at": "2025-08-07 09:45:43"
+        "strategy": "ConcreteStrategyB",
+        "generated_at": "2025-08-17 20:30:18"
     },
     {
-        "slip_id": "e49301c3-d59b-4b15-b237-62ffd67d70f7",
+        "slip_id": "622772f8-5755-47dd-8ad7-e46ee7f4d21e",
+        "employee_id": "mohaimen",
+        "base_salary": 50000,
+        "hours_worked": 160,
+        "overtime_hours": 5,
+        "salary": 52343.75,
+        "month": "August",
+        "year": 2025,
+        "strategy": "ConcreteStrategyA",
+        "generated_at": "2025-08-17 20:58:06"
+    },
+    {
+        "slip_id": "91a6cbab-570b-4e1e-b2d0-9aae39c79d23",
         "employee_id": "john",
         "base_salary": 30000,
         "hours_worked": 160,
-        "overtime_hours": 5,
-        "salary": 31406.25,
+        "overtime_hours": 0,
+        "salary": 35000.0,
         "month": "August",
         "year": 2025,
-        "strategy": "DefaultSalaryStrategy",
-        "generated_at": "2025-08-07 10:08:29"
-    },
-    {
-        "slip_id": "7897feb3-1bbd-4fd4-bc89-c6647bbb4d3f",
-        "employee_id": "john",
-        "base_salary": 30000,
-        "hours_worked": 160,
-        "overtime_hours": 5,
-        "salary": 31406.25,
-        "month": "August",
-        "year": 2025,
-        "strategy": "DefaultSalaryStrategy",
-        "generated_at": "2025-08-07 10:12:21"
-    },
-    {
-        "slip_id": "9230495d-acd6-42dd-9892-9e441bb14b8c",
-        "employee_id": "john",
-        "base_salary": 30000,
-        "hours_worked": 160,
-        "overtime_hours": 5,
-        "salary": 31406.25,
-        "month": "August",
-        "year": 2025,
-        "strategy": "DefaultSalaryStrategy",
-        "generated_at": "2025-08-08 15:44:35"
-    },
-    {
-        "slip_id": "919c52bf-03c6-4d8b-add4-91d5220929b3",
-        "employee_id": "john",
-        "base_salary": 30000,
-        "hours_worked": 160,
-        "overtime_hours": 5,
-        "salary": 31406.25,
-        "month": "August",
-        "year": 2025,
-        "strategy": "DefaultSalaryStrategy",
-        "generated_at": "2025-08-08 15:59:02"
-    },
-    {
-        "slip_id": "9ae45827-3688-42ff-ac96-9ae5d8a14b13",
-        "employee_id": "john",
-        "base_salary": 30000,
-        "hours_worked": 160,
-        "overtime_hours": 5,
-        "salary": 31406.25,
-        "month": "August",
-        "year": 2025,
-        "strategy": "DefaultSalaryStrategy",
-        "generated_at": "2025-08-08 16:14:32"
-    },
-    {
-        "slip_id": "313f5c2b-a521-4ef9-a845-76dea5f65eaa",
-        "employee_id": "john",
-        "base_salary": 30000,
-        "hours_worked": 160,
-        "overtime_hours": 5,
-        "salary": 31406.25,
-        "month": "August",
-        "year": 2025,
-        "strategy": "DefaultSalaryStrategy",
-        "generated_at": "2025-08-08 16:16:33"
+        "strategy": "ConcreteStrategyB",
+        "generated_at": "2025-08-17 20:58:06"
     }
 ]

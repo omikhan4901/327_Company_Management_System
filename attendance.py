@@ -124,12 +124,54 @@ class AttendanceManager:
         return [e.to_dict() for e in self.entries.values() if e.date == date]
 
 # ----------------------
-# Adapter Implementation
+# Adapter Design Pattern
 # ----------------------
 
-class DefaultAttendanceAdapter(AttendanceAdapter):
+# Target Interface
+class AttendanceAdapter(ABC):
+    @abstractmethod
+    def get_hours_worked(self, employee_id):
+        pass
+
+
+# Adaptee (already implemented above): AttendanceManager
+# -> It provides get_total_hours_for_employee(), but client only understands get_hours_worked()
+
+
+# Adapter: implements Target and delegates to Adaptee
+class AttendanceManagerAdapter(AttendanceAdapter):
     def __init__(self, attendance_manager: AttendanceManager):
         self.attendance_manager = attendance_manager
 
     def get_hours_worked(self, employee_id):
+        # Adapt the interface: request() -> specificRequest()
         return self.attendance_manager.get_total_hours_for_employee(employee_id)
+    
+# ----------------------
+# Client Test
+# ----------------------
+
+def client_code(adapter: AttendanceAdapter, employee_id: str):
+    # The client only knows about the Adapter interface, not the AttendanceManager
+    hours = adapter.get_hours_worked(employee_id)
+    print(f"[CLIENT] Employee {employee_id} worked {hours} hours in total.")
+
+
+if __name__ == "__main__":
+    # Create the adaptee (real system)
+    manager = AttendanceManager()
+
+    # Simulate some check-in/check-out
+    manager.check_in("mohaimen")
+    manager.check_out("mohaimen")
+
+    manager.check_in("john")
+    manager.check_out("john")
+
+    # Wrap the adaptee in an adapter
+    adapter = AttendanceManagerAdapter(manager)
+
+    # Client uses the adapter interface, not the raw manager
+    client_code(adapter, "mohaimen")
+    client_code(adapter, "john")
+

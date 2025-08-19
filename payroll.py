@@ -8,26 +8,26 @@ import uuid
 
 
 # Strategy Pattern
-class SalaryStrategy(ABC):
+class Strategy(ABC):
     @abstractmethod
-    def calculate_salary(self, base_salary, hours_worked, overtime_hours, **kwargs):
+    def execute(self, base_salary, hours_worked, overtime_hours, **kwargs):
         pass
 
 
-class DefaultSalaryStrategy(SalaryStrategy):
+class ConcreteStrategyA(Strategy):  # Default Salary Strategy
     def __init__(self, overtime_rate=1.5):
         self.overtime_rate = overtime_rate
 
-    def calculate_salary(self, base_salary, hours_worked, overtime_hours, **kwargs):
+    def execute(self, base_salary, hours_worked, overtime_hours, **kwargs):
         hourly_rate = base_salary / 160
         return round((hours_worked + overtime_hours * self.overtime_rate) * hourly_rate, 2)
 
 
-class CommissionSalaryStrategy(SalaryStrategy):
+class ConcreteStrategyB(Strategy):  # Commission Salary Strategy
     def __init__(self, commission_rate=0.1):
         self.commission_rate = commission_rate
 
-    def calculate_salary(self, base_salary, hours_worked, overtime_hours, **kwargs):
+    def execute(self, base_salary, hours_worked, overtime_hours, **kwargs):
         sales = kwargs.get("sales", 0)
         return round(base_salary + (sales * self.commission_rate), 2)
 
@@ -76,9 +76,10 @@ class PaySlip:
         return slip
 
 
+# Context
 class PayrollManager:
     def __init__(self, strategy=None, file_path="payroll.json", notifier=None):
-        self.strategy = strategy or DefaultSalaryStrategy()
+        self.strategy = strategy or ConcreteStrategyA()
         self.file_path = file_path
         self.notifier = notifier
         self.slips = {}
@@ -99,11 +100,11 @@ class PayrollManager:
         with open(self.file_path, "w") as f:
             json.dump([s.to_dict() for s in self.slips.values()], f, indent=4)
 
-    def set_strategy(self, strategy: SalaryStrategy):
+    def set_strategy(self, strategy: Strategy):
         self.strategy = strategy
 
     def generate_payslip(self, employee_id, base_salary, hours_worked, overtime_hours, month, year, **kwargs):
-        salary = self.strategy.calculate_salary(base_salary, hours_worked, overtime_hours, **kwargs)
+        salary = self.strategy.execute(base_salary, hours_worked, overtime_hours, **kwargs)
         slip = PaySlip(employee_id, base_salary, hours_worked, overtime_hours, month, year, salary, self.strategy.__class__.__name__)
         self.slips[slip.slip_id] = slip
         self._save_slips()
