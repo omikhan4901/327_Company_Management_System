@@ -23,8 +23,8 @@ This guide will help you set up and run the Company Management System on your lo
 1.  **Clone the Repository (or Download the Project Files)**:
     If you have Git, use:
     ```bash
-    git clone [Your_Repository_URL]
-    cd [Your_Project_Folder_Name]
+    git clone [[Repository_URL]](https://github.com/omikhan4901/327_Company_Management_System.git)
+    cd 327_Company_Management_System
     ```
     Otherwise, download all project files and navigate to the root directory of the project in your terminal.
 
