@@ -653,5 +653,40 @@
         "to": "321",
         "message": "Check-in successful at 10:22:53",
         "timestamp": "2025-08-20 10:22:53"
+    },
+    {
+        "to": "admin",
+        "message": "Already checked in today.",
+        "timestamp": "2025-08-20 11:04:12"
+    },
+    {
+        "to": "admin",
+        "message": "Check-out successful at 11:04:14",
+        "timestamp": "2025-08-20 11:04:14"
+    },
+    {
+        "to": "test_employee_att",
+        "message": "Checked in at 11:06:08",
+        "timestamp": "2025-08-20 11:06:08"
+    },
+    {
+        "to": "test_employee_att",
+        "message": "Checked out at 11:06:08",
+        "timestamp": "2025-08-20 11:06:08"
+    },
+    {
+        "to": "employee_hourly",
+        "message": "Payslip for August 2025 generated. Net salary: BDT 54687.5",
+        "timestamp": "2025-08-20 11:06:09"
+    },
+    {
+        "to": "alice",
+        "message": "You've been assigned a new Task: 'Develop Feature X' (Deadline: 2025-09-01)",
+        "timestamp": "2025-08-20 11:06:09"
+    },
+    {
+        "to": "bob",
+        "message": "You've been assigned a new HighPriorityTask: 'Fix Production Bug' (Deadline: 2025-08-25)",
+        "timestamp": "2025-08-20 11:06:09"
     }
 ]

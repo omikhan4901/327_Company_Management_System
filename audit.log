@@ -153,3 +153,13 @@
 {"timestamp": "2025-08-20 10:22:59", "username": "321", "action": "Logged out", "details": {}}
 {"timestamp": "2025-08-20 10:23:02", "username": "123", "action": "Login Successful", "details": {}}
 {"timestamp": "2025-08-20 10:23:06", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 11:00:05", "username": "admin ", "action": "Login Failed", "details": {"reason": "Invalid credentials"}}
+{"timestamp": "2025-08-20 11:03:42", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 11:03:58", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 11:04:01", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 11:04:30", "username": "admin", "action": "Task Status Updated", "details": {"task_id": "1", "new_status": "Completed"}}
+{"timestamp": "2025-08-20 11:04:53", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 11:04:56", "username": "321", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 11:05:00", "username": "321", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 11:05:03", "username": "111", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 11:05:22", "username": "111", "action": "Logged out", "details": {}}
