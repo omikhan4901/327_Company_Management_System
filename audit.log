@@ -163,3 +163,8 @@
 {"timestamp": "2025-08-20 11:05:00", "username": "321", "action": "Logged out", "details": {}}
 {"timestamp": "2025-08-20 11:05:03", "username": "111", "action": "Registration Successful", "details": {}}
 {"timestamp": "2025-08-20 11:05:22", "username": "111", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 11:38:33", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 11:38:48", "username": "123", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 11:38:51", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 11:39:00", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 11:39:08", "username": "admin", "action": "Logged out", "details": {}}
