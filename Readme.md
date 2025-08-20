@@ -135,51 +135,234 @@ The **Company Management System** is a robust, modular web-based platform design
 
 ---
 
-## Design Patterns Used 📐
+# Design Patterns Used 📐
 
-This project extensively utilizes nine key design patterns to ensure a robust, scalable, and maintainable codebase.
+## **1. Adapter Pattern**
 
-### 1. **Singleton Pattern** 🌟
-* **Concept**: Ensures that a class has only one instance and provides a global point of access to it.
-* **How it's followed**: The `AuthManager` (`authentication.py`) and `Logger` (`logger.py`) classes both use a private class variable (`__instance`) and a static method (`get_instance()`) to guarantee that only a single instance is ever created.
-* **Benefit**: Centralized control for critical functionalities like user sessions and system-wide logging, preventing conflicts and ensuring consistency.
+**Definition:**
+The **Adapter pattern** allows the interface of an existing class to be used as another interface. It’s like a translator between two incompatible interfaces.
 
-### 2. **Factory Method Pattern** 🏭
-* **Concept**: Defines an interface for creating an object, but lets subclasses decide which class to instantiate.
-* **How it's followed**: The `TaskCreator` in `task_manager.py` is the abstract factory that defines `factory_method`. Concrete creators like `BaseTaskCreator` and `HighPriorityTaskCreator` implement this method to return specific task objects (`TaskModel`, `HighPriorityTask`), based on the `task_type` requested.
-* **Benefit**: Decouples the client code from the concrete classes being instantiated, allowing for easy introduction of new task types without modifying core task management logic.
+**Basic Example:**
 
-### 3. **Strategy Pattern** 🧩
-* **Concept**: Defines a family of algorithms, encapsulates each one, and makes them interchangeable.
-* **How it's followed**: The `PayrollManager` (`payroll.py`) is the context that uses different `Strategy` implementations (`ConcreteStrategyA` for hourly pay, `ConcreteStrategyB` for sales commission). The payroll calculation method can be changed at runtime by setting a different strategy object.
-* **Benefit**: Allows the payroll calculation algorithm to be changed dynamically, making the system flexible for new compensation models without altering the `PayrollManager`'s code.
+```python
+class OldPrinter:
+    def print_text(self, text): 
+        return f"Old printing: {text}"
 
-### 4. **Observer Pattern** 🔔
-* **Concept**: Defines a one-to-many dependency so that when one object changes state, all its dependents are notified.
-* **How it's followed**: The `NotificationManager` (`notification.py`) is the subject, and `InAppNotifier` and `EmailNotifier` are the observers. The `NotificationManager`'s `notify_all` method automatically calls the `update` method on all registered observers, decoupling event senders from their receivers.
-* **Benefit**: Promotes modularity. New notification channels can be added by simply creating a new observer class and registering it with the subject, without changing the core business logic.
+class PrinterAdapter:
+    def __init__(self, old_printer):
+        self.old_printer = old_printer
+    def print(self, text):  # New interface
+        return self.old_printer.print_text(text)
 
-### 5. **Facade Pattern** 🏛️
-* **Concept**: Provides a simplified interface to a complex subsystem.
-* **How it's followed**: The `ReportFacade` (`report_facade.py`) offers a simple interface like `get_employee_summary` and `get_system_summary`. It orchestrates calls to multiple subsystems (`TaskReport`, `PayslipReport`, etc.) to produce a single, comprehensive report, hiding the underlying complexity from the client.
-* **Benefit**: Simplifies the client-side interaction with a complex subsystem, reducing dependencies.
+printer = PrinterAdapter(OldPrinter())
+print(printer.print("Hello!"))  # Output: "Old printing: Hello!"
+```
 
-### 6. **Adapter Pattern** 🔌
-* **Concept**: Converts the interface of a class into another interface clients expect.
-* **How it's followed**: The `AttendanceManagerAdapter` (`attendance.py`) allows the `AttendanceManager` to conform to the `AttendanceAdapter` interface. This lets other parts of the system use the `AttendanceManager`'s functionality through a standardized interface.
-* **Benefit**: Enables classes with incompatible interfaces to work together, promoting reusability and flexibility.
+**Our System Example:**
 
-### 7. **Repository Pattern** 📦
-* **Concept**: Abstracts the data layer, providing a collection-like interface for accessing domain objects.
-* **How it's followed**: All your manager classes (`AuthManager`, `TaskManager`, etc.) act as repositories. They expose methods like `get_all_users` or `create_task` which encapsulate the details of database queries and data storage, hiding them from the application logic.
-* **Benefit**: Decouples business logic from data access logic. This makes the code cleaner and allows for easier migration to different database systems.
+* **Adapter Classes:** `AttendanceAdapter`, `AttendanceManagerAdapter`
+* **Purpose:** Converts Our database attendance objects to a standard Python object with methods like `get_hours_worked()` for Our business logic.
 
-### 8. **Data Mapper Pattern** 🗺️
-* **Concept**: A layer of mappers that moves data between objects and a database.
-* **How it's followed**: Your SQLAlchemy models in `database.py` (`User`, `Task`, `Payslip`, etc.) are your data mappers. They map your Python domain objects to the database tables, making the Python objects unaware of how they are being stored.
-* **Benefit**: Ensures that your domain objects are "persistence-ignorant," promoting a clean separation of concerns and makes your domain model more reusable and testable.
+```python
+attendance_adapter = AttendanceAdapter(db_entry)
+hours = attendance_adapter.get_hours_worked()
+```
 
-### 9. **Composite Design Pattern** 🌳
-* **Concept**: Composes objects into tree structures to represent part-whole hierarchies.
-* **How it's followed**: The `DepartmentManager` uses `DepartmentComponent`, `DepartmentLeaf`, and `DepartmentComposite` from `department_composite.py` to build a hierarchical tree of departments. This allows operations like filtering tasks for a manager's department and all its sub-departments to be handled uniformly.
-* **Benefit**: Simplifies operations on tree-like structures. You can perform actions on a single department or an entire branch of the department tree using the same interface.
+---
+
+## **2. Composite Pattern**
+
+**Definition:**
+The **Composite pattern** allows you to treat individual objects and compositions of objects uniformly. Perfect for hierarchical structures.
+
+**Basic Example:**
+
+```python
+class Component:
+    def operation(self): pass
+
+class Leaf(Component):
+    def operation(self): return "Leaf"
+
+class Composite(Component):
+    def __init__(self):
+        self.children = []
+    def add(self, child): self.children.append(child)
+    def operation(self):
+        return " + ".join(child.operation() for child in self.children)
+
+tree = Composite()
+tree.add(Leaf())
+tree.add(Leaf())
+print(tree.operation())  # Output: "Leaf + Leaf"
+```
+
+**Our System Example:**
+
+* **Composite Classes:** `DepartmentComposite`, `DepartmentLeaf`
+* **Purpose:** Manage hierarchy of departments and employees, treating a single employee and a whole department uniformly.
+
+```python
+company = DepartmentComposite("Company")
+dept1 = DepartmentComposite("HR")
+emp1 = DepartmentLeaf("Alice")
+dept1.add(emp1)
+company.add(dept1)
+```
+
+---
+
+## **3. Strategy Pattern**
+
+**Definition:**
+The **Strategy pattern** defines a family of algorithms, encapsulates each one, and makes them interchangeable.
+
+**Basic Example:**
+
+```python
+class Strategy:
+    def execute(self, data): pass
+
+class ConcreteStrategyA(Strategy):
+    def execute(self, data): return data * 2
+
+class Context:
+    def __init__(self, strategy): self.strategy = strategy
+    def run(self, data): return self.strategy.execute(data)
+
+context = Context(ConcreteStrategyA())
+print(context.run(5))  # Output: 10
+```
+
+**Our System Example:**
+
+* **Strategy Classes:** `ConcreteStrategyA`, `ConcreteStrategyB`
+* **Context:** `PayrollManager`
+* **Purpose:** Choose how salary is calculated (standard hourly vs. commission) at runtime.
+
+```python
+payroll = PayrollManager()
+payroll.set_strategy(ConcreteStrategyB())
+salary = payroll.generate_payslip(employee_id, ...)
+```
+
+---
+
+## **4. Observer Pattern**
+
+**Definition:**
+The **Observer pattern** defines a one-to-many dependency so that when one object changes state, all its dependents are notified automatically.
+
+**Basic Example:**
+
+```python
+class Subject:
+    def __init__(self): self.observers = []
+    def attach(self, obs): self.observers.append(obs)
+    def notify(self, msg): 
+        for obs in self.observers: obs.update(msg)
+
+class Observer:
+    def update(self, msg): print(f"Observer received: {msg}")
+
+subject = Subject()
+subject.attach(Observer())
+subject.notify("Hello!")  # Output: "Observer received: Hello!"
+```
+
+**Our System Example:**
+
+* **Subject:** `NotificationSubject`
+* **Observers:** `InAppNotifier`, `EmailNotifier`
+* **Manager:** `NotificationManager`
+* **Purpose:** Notify employees automatically whenever a task is assigned or a payslip is generated.
+
+```python
+notifier = InAppNotifier(NotificationSubject())
+notifier.send_notification("Task assigned", "emp123")
+```
+
+---
+
+## **5. Factory Method Pattern**
+
+**Definition:**
+The **Factory Method pattern** defines an interface for creating an object but lets subclasses decide which class to instantiate.
+
+**Basic Example:**
+
+```python
+class Creator:
+    def factory_method(self): pass
+    def create(self): return self.factory_method()
+
+class ConcreteCreatorA(Creator):
+    def factory_method(self): return "ProductA"
+
+creator = ConcreteCreatorA()
+print(creator.create())  # Output: "ProductA"
+```
+
+**Our System Example:**
+
+* **Creator Classes:** `TaskCreator` and subclasses (`BaseTaskCreator`, `HighPriorityTaskCreator`, `DeadlineSensitiveTaskCreator`)
+* **Products:** `TaskModel` and its subclasses
+* **Manager:** `TaskManager`
+* **Purpose:** Dynamically create different types of tasks without changing the client code.
+
+```python
+creator = TaskCreator.get_creator("HighPriorityTask")
+task = creator.create_task("Title", "Desc", "emp123", "2025-08-31")
+```
+
+---
+
+## **6. Facade Pattern**
+
+**Definition:**
+The **Facade pattern** provides a simplified interface to a complex subsystem.
+
+**Basic Example:**
+
+```python
+class SubsystemA: 
+    def op1(self): return "A1"
+class SubsystemB: 
+    def op2(self): return "B2"
+
+class Facade:
+    def __init__(self): self.a = SubsystemA(); self.b = SubsystemB()
+    def simple_op(self): return f"{self.a.op1()} + {self.b.op2()}"
+
+facade = Facade()
+print(facade.simple_op())  # Output: "A1 + B2"
+```
+
+**Our System Example:**
+
+* **Subsystems:** `TaskReport`, `PayslipReport`, `HoursReport`, `PayReport`, `SystemReport`
+* **Facade:** `ReportFacade`
+* **Purpose:** Provide a single entry point to generate employee and system reports.
+
+```python
+facade = ReportFacade()
+emp_summary = facade.get_employee_summary("emp123")
+system_summary = facade.get_system_summary()
+```
+
+---
+
+✅ **Summary Table**
+
+| Pattern        | Purpose                         | Our Classes                                                                                           |
+| -------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Adapter        | Convert incompatible interfaces | `AttendanceAdapter`, `AttendanceManagerAdapter`                                                        |
+| Composite      | Hierarchical part-whole         | `DepartmentComposite`, `DepartmentLeaf`                                                                |
+| Strategy       | Interchangeable algorithms      | `ConcreteStrategyA/B`, `PayrollManager`                                                                |
+| Observer       | Automatic notifications         | `NotificationSubject`, `NotificationObserver`, `InAppNotifier`, `EmailNotifier`, `NotificationManager` |
+| Factory Method | Encapsulate object creation     | `TaskCreator` subclasses, `TaskModel` subclasses, `TaskManager`                                        |
+| Facade         | Simplify subsystem access       | `ReportFacade`, `TaskReport`, `PayslipReport`, `HoursReport`, `PayReport`, `SystemReport`              |
+
+---
+ 
