@@ -6,9 +6,8 @@ auth_manager = AuthManager.get_instance()
 create_tables()
 auth_manager.create_default_admin()
 department_manager.create_default_department()
-department_manager = DepartmentManager()
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse, FileResponse # Changed from FileResponsefrom fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse, FileResponse  
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
@@ -26,8 +25,7 @@ pdf_payslip_generator = PDFPayslipGenerator()
 attendance_manager = AttendanceManager()
 notification_manager = NotificationManager()
 
-inapp_notifier = InAppNotifier(notification_manager.subject)
-# Pass NotificationManager to PayrollManager, not InAppNotifier
+inapp_notifier = InAppNotifier(notification_manager.subject) 
 payroll_manager = PayrollManager(strategy=ConcreteStrategyA(), notifier=notification_manager)
 
 # Static files and templates
@@ -93,14 +91,13 @@ async def register_page(request: Request):
 @app.post("/register")
 async def register_user(request: Request,
                         username: str = Form(...),
-                        password: str = Form(...)): # <-- Role parameter removed
-    # The role is already hardcoded as "employee" in auth_manager.register_user
-    success, msg = auth_manager.register_user(username, password, "employee") # Pass "employee" directly
+                        password: str = Form(...)):   
+    success, msg = auth_manager.register_user(username, password, "employee")  
     if not success:
         return templates.TemplateResponse("register.html", {"request": request, "error": msg, "username": None})
     
     # Log the registration attempt
-    logger.log_event(username, "Registration Successful") # This log was inside the if not success block previously, moved here for clarity
+    logger.log_event(username, "Registration Successful")  
 
     success, token = auth_manager.login(username, password)
     response = RedirectResponse(url="/dashboard", status_code=303)
@@ -136,7 +133,7 @@ async def attendance_page(request: Request):
     username = auth_manager.get_logged_in_user(token)
     role = auth_manager.get_user_role(token)
 
-    # Initialize records and total_hours
+     
     records = []
     total_hours = 0
 
@@ -163,14 +160,8 @@ async def attendance_page(request: Request):
         total_hours = sum(total_hours_dict.values()) if total_hours_dict else 0
         
     elif role == 'manager': # Manager sees records for their department and sub-departments
-        # First, get the manager's department ID
-        # Note: auth_manager._get_user requires a database session. 
-        # A safer way is to fetch user details directly from auth_manager.get_all_users() 
-        # or add a public method in AuthManager to get user by username.
-        # For now, let's assume auth_manager._get_user is accessible and takes a session.
-        # Or even better, modify auth_manager.get_logged_in_user to return the full user object if needed.
         
-        # Let's adjust this to use get_all_users and find the manager's department_id
+        # Adjust this to use get_all_users and find the manager's department_id
         manager_user_obj = next((u for u in auth_manager.get_all_users() if u['username'] == username), None)
         manager_dept_id = manager_user_obj['department_id'] if manager_user_obj else None
 
@@ -208,7 +199,7 @@ async def attendance_page(request: Request):
         else:
             # Manager not assigned to a department, show only their own records or a message
             records = attendance_manager.get_attendance_for_employee(username)
-            for r in records: # Ensure hours are calculated for individual view
+            for r in records:  
                 hours_worked_for_entry = 0
                 if r.get("check_in") and r.get("check_out"):
                     try:
@@ -245,65 +236,6 @@ async def attendance_page(request: Request):
         "message": None
     })
 
-
-# Initialize records and total_hours
-    records = []
-    total_hours = 0
-
-    if role == 'admin' or role == 'manager':
-        # Fetch all records and format them for the template
-        all_db_records = attendance_manager.get_all_attendance_records()
-        for r in all_db_records:
-            # Calculate hours worked for each record
-            hours_worked_for_entry = 0
-            if r.check_in and r.check_out:
-                try:
-                    in_time = datetime.strptime(r.check_in, "%H:%M:%S")
-                    out_time = datetime.strptime(r.check_out, "%H:%M:%S")
-                    delta = out_time - in_time
-                    hours_worked_for_entry = round(delta.total_seconds() / 3600, 2)
-                except ValueError:
-                    # Handle cases where time format might be invalid, though it shouldn't happen with current check_in/out
-                    hours_worked_for_entry = 0 
-
-            records.append({
-                "employee_id": r.employee_id, # Ensure employee_id is included
-                "date": r.date,
-                "check_in": r.check_in or '-',
-                "check_out": r.check_out or '-',
-                "hours": hours_worked_for_entry # Use the calculated hours
-            })
-        total_hours_dict = attendance_manager.get_total_hours_for_all_employees()
-        # Format total_hours for display (e.g., sum of all, or per employee if needed)
-        # For now, let's just show a sum for the admin/manager view, or you can iterate in HTML
-        total_hours = sum(total_hours_dict.values()) if total_hours_dict else 0
-        
-    else: # Employee role
-        # Fetch records and total hours for the specific employee
-        records = attendance_manager.get_attendance_for_employee(username)
-        # The get_attendance_for_employee already returns dicts, but let's ensure hours are calculated
-        for r in records:
-            hours_worked_for_entry = 0
-            if r.get("check_in") and r.get("check_out"):
-                try:
-                    in_time = datetime.strptime(r["check_in"], "%H:%M:%S")
-                    out_time = datetime.strptime(r["check_out"], "%H:%M:%S")
-                    delta = out_time - in_time
-                    hours_worked_for_entry = round(delta.total_seconds() / 3600, 2)
-                except ValueError:
-                    hours_worked_for_entry = 0
-            r["hours"] = hours_worked_for_entry # Add hours to the dictionary
-        
-        total_hours = attendance_manager.get_total_hours_for_employee(username)
-
-    return templates.TemplateResponse("attendance.html", {
-        "request": request,
-        "username": username,
-        "role": role,
-        "records": records,
-        "total_hours": total_hours,
-        "message": None
-    })
 
 
 @app.post("/attendance/checkin")
@@ -729,9 +661,6 @@ async def reports_page(request: Request):
             total_pay = report_manager.get_total_pay_by_department_ids(relevant_dept_ids)
         # If manager has no department, reports will be empty as initialized
     # Employees don't access this page (handled by main.py route guard)
-    
-    # This is the line that needs to be fixed. The code in the `reports.html` is
-    # expecting these variables to be passed separately, not in a dictionary
     return templates.TemplateResponse("reports.html", {
         "request": request,
         "username": username,
