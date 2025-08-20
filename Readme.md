@@ -37,7 +37,7 @@ This guide will help you set up and run the Company Management System on your lo
 3.  **Activate the Virtual Environment**:
     * **On Windows**:
         ```bash
-        .\\venv\\Scripts\\activate
+        ./venv/Scripts/activate
         ```
     * **On macOS/Linux**:
         ```bash
