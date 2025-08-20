@@ -182,3 +182,12 @@ class UserManager:
         self.user_profiles[username]["last_modified"] = datetime.now().isoformat()
         self._save_user_profiles_to_file()
         return True, f"User {'activated' if status else 'deactivated'} successfully"
+    # user.py
+from notification import Observer
+
+class User(Observer):
+    def __init__(self, name):
+        self.name = name
+
+    def update(self, message: str):
+        print(f"[NOTIFICATION for {self.name}] {message}")

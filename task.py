@@ -219,3 +219,17 @@ class TaskManager:
             return False, "Invalid authentication token"
         
         return True, {task_id: task.get_details() for task_id, task in self.tasks.items()}
+    # task.py
+from notification import Subject
+
+class Task(Subject):
+    def __init__(self, task_id, description):
+        super().__init__()
+        self.task_id = task_id
+        self.description = description
+        self.status = "Pending"
+
+    def set_status(self, status: str):
+        self.status = status
+        # notify observers whenever task changes
+        self.notify_observers(f"Task {self.task_id} is now {status}")
