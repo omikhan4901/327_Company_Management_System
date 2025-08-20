@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management - {{ username }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin:0; padding:0; }
+        header { background-color:#1f2937; color:#fff; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
+        header h1 { margin:0; font-size:24px; }
+        nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:bold; }
+        nav a:hover { text-decoration:underline; }
+        main { padding:30px; }
+        table { width:100%; border-collapse:collapse; background-color:#fff; border-radius:10px; overflow:hidden; box-shadow:0 0 10px rgba(0,0,0,0.05); }
+        table th, table td { padding:12px; text-align:left; border-bottom:1px solid #ddd; }
+        table th { background-color:#1f2937; color:#fff; }
+        table tr:last-child td { border-bottom:none; }
+        .message { color: green; margin-bottom:15px; font-weight:bold; }
+        select, button { padding: 8px; border-radius: 5px; }
+        button { background-color: #2563eb; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #1e40af; }
+        form { display: inline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>User Management</h1>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Welcome, {{ username }} ({{ role }})</h2>
+
+        {% if message %}
+        <p class="message">{{ message }}</p>
+        {% endif %}
+
+        <h2>All Users</h2>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Current Role</th>
+                <th>Current Department</th>
+                <th>Change Role & Department</th>
+            </tr>
+            {% for user in all_users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    {% if user.department_id %}
+                        {% for dept in departments %}
+                            {% if dept.id == user.department_id %}{{ dept.name }}{% endif %}
+                        {% endfor %}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="/admin/update_role" method="post">
+                        <input type="hidden" name="username" value="{{ user.username }}">
+                        <select name="new_role">
+                            <option value="employee" {% if user.role == 'employee' %}selected{% endif %}>Employee</option>
+                            <option value="manager" {% if user.role == 'manager' %}selected{% endif %}>Manager</option>
+                            <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                        </select>
+                        <select name="department_id">
+                            <option value="0">-- No Department --</option>
+                            {% for dept in departments %}
+                            <option value="{{ dept.id }}" {% if dept.id == user.department_id %}selected{% endif %}>{{ dept.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No users found.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </main>
+</body>
+</html>

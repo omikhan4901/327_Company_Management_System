@@ -5,7 +5,8 @@ from datetime import datetime
 import json
 import os
 import uuid
-
+from database import SessionLocal, Payslip
+from typing import Any, Tuple, List # Import Tuple and Any for type hints
 
 # Strategy Pattern
 class Strategy(ABC):
@@ -17,6 +18,7 @@ class Strategy(ABC):
 class ConcreteStrategyA(Strategy):  # Default Salary Strategy
     def __init__(self, overtime_rate=1.5):
         self.overtime_rate = overtime_rate
+        self.name = "Standard Hourly Pay"
 
     def execute(self, base_salary, hours_worked, overtime_hours, **kwargs):
         hourly_rate = base_salary / 160
@@ -26,97 +28,148 @@ class ConcreteStrategyA(Strategy):  # Default Salary Strategy
 class ConcreteStrategyB(Strategy):  # Commission Salary Strategy
     def __init__(self, commission_rate=0.1):
         self.commission_rate = commission_rate
+        self.name = "Sales Commission Pay"
 
     def execute(self, base_salary, hours_worked, overtime_hours, **kwargs):
         sales = kwargs.get("sales", 0)
         return round(base_salary + (sales * self.commission_rate), 2)
 
 
-class PaySlip:
-    def __init__(self, employee_id, base_salary, hours_worked, overtime_hours, month, year, salary, strategy_name):
-        self.slip_id = str(uuid.uuid4())
-        self.employee_id = employee_id
-        self.base_salary = base_salary
-        self.hours_worked = hours_worked
-        self.overtime_hours = overtime_hours
-        self.month = month
-        self.year = year
-        self.salary = salary
-        self.strategy_name = strategy_name
-        self.generated_at = datetime.now()
-
-    def to_dict(self):
-        return {
-            "slip_id": self.slip_id,
-            "employee_id": self.employee_id,
-            "base_salary": self.base_salary,
-            "hours_worked": self.hours_worked,
-            "overtime_hours": self.overtime_hours,
-            "salary": self.salary,
-            "month": self.month,
-            "year": self.year,
-            "strategy": self.strategy_name,
-            "generated_at": self.generated_at.strftime("%Y-%m-%d %H:%M:%S")
-        }
-
-    @staticmethod
-    def from_dict(data):
-        slip = PaySlip(
-            employee_id=data["employee_id"],
-            base_salary=data["base_salary"],
-            hours_worked=data["hours_worked"],
-            overtime_hours=data["overtime_hours"],
-            month=data["month"],
-            year=data["year"],
-            salary=data["salary"],
-            strategy_name=data["strategy"]
-        )
-        slip.slip_id = data["slip_id"]
-        slip.generated_at = datetime.strptime(data["generated_at"], "%Y-%m-%d %H:%M:%S")
-        return slip
-
-
 # Context
 class PayrollManager:
-    def __init__(self, strategy=None, file_path="payroll.json", notifier=None):
+    def __init__(self, strategy=None, notifier=None):
         self.strategy = strategy or ConcreteStrategyA()
-        self.file_path = file_path
         self.notifier = notifier
         self.slips = {}
-        self._load_slips()
-
-    def _load_slips(self):
-        if os.path.exists(self.file_path):
-            with open(self.file_path, "r") as f:
-                try:
-                    data = json.load(f)
-                    for slip_data in data:
-                        slip = PaySlip.from_dict(slip_data)
-                        self.slips[slip.slip_id] = slip
-                except json.JSONDecodeError:
-                    print("[ERROR] Failed to parse payroll.json.")
-
-    def _save_slips(self):
-        with open(self.file_path, "w") as f:
-            json.dump([s.to_dict() for s in self.slips.values()], f, indent=4)
 
     def set_strategy(self, strategy: Strategy):
         self.strategy = strategy
 
-    def generate_payslip(self, employee_id, base_salary, hours_worked, overtime_hours, month, year, **kwargs):
-        salary = self.strategy.execute(base_salary, hours_worked, overtime_hours, **kwargs)
-        slip = PaySlip(employee_id, base_salary, hours_worked, overtime_hours, month, year, salary, self.strategy.__class__.__name__)
-        self.slips[slip.slip_id] = slip
-        self._save_slips()
+    def generate_payslip(self, employee_id, base_salary, hours_worked, overtime_hours, month, year, **kwargs) -> Tuple[bool, Any]:
+        db = SessionLocal()
+        try:
+            salary = self.strategy.execute(base_salary, hours_worked, overtime_hours, **kwargs)
+            
+            new_slip = Payslip(
+                employee_id=employee_id,
+                base_salary=base_salary,
+                hours_worked=hours_worked,
+                overtime_hours=overtime_hours,
+                month=month,
+                year=year,
+                salary=salary,
+                strategy=self.strategy.name
+            )
 
-        if self.notifier:
-            msg = f"Payslip for {month} {year} generated. Net salary: BDT {salary}"
-            self.notifier.send_notification(msg, employee_id)
+            db.add(new_slip)
+            db.commit()
+            db.refresh(new_slip) # Refresh to get the generated ID and timestamp
 
-        return slip.to_dict()
+            if self.notifier:
+                msg = f"Payslip for {month} {year} generated. Net salary: BDT {salary}"
+                self.notifier.send_notification(msg, employee_id)
+            
+            # Return success status and the payslip data as a dictionary
+            return True, {
+                "slip_id": new_slip.id,
+                "employee_id": new_slip.employee_id,
+                "base_salary": new_slip.base_salary,
+                "hours_worked": new_slip.hours_worked,
+                "overtime_hours": new_slip.overtime_hours,
+                "salary": new_slip.salary,
+                "month": new_slip.month,
+                "year": new_slip.year,
+                "strategy": new_slip.strategy,
+                "generated_at": new_slip.generated_at.strftime("%Y-%m-%d %H:%M:%S")
+            }
+        except Exception as e:
+            db.rollback() # Rollback changes in case of an error
+            print(f"Error generating payslip in PayrollManager: {e}")
+            # Return failure status and the error message
+            return False, str(e)
+        finally:
+            db.close()
 
     def get_payslips_by_employee(self, employee_id):
-        return [s.to_dict() for s in self.slips.values() if s.employee_id == employee_id]
+        db = SessionLocal()
+        try:
+            slips = db.query(Payslip).filter(Payslip.employee_id == employee_id).all()
+            return [
+                {
+                    "slip_id": s.id,
+                    "employee_id": s.employee_id,
+                    "base_salary": s.base_salary,
+                    "hours_worked": s.hours_worked,
+                    "overtime_hours": s.overtime_hours,
+                    "salary": s.salary,
+                    "month": s.month,
+                    "year": s.year,
+                    "strategy": s.strategy,
+                    "generated_at": s.generated_at.strftime("%Y-%m-%d %H:%M:%S")
+                } for s in slips
+            ]
+        finally:
+            db.close()
 
     def get_all_payslips(self):
-        return [s.to_dict() for s in self.slips.values()]
+        db = SessionLocal()
+        try:
+            slips = db.query(Payslip).all()
+            return [
+                {
+                    "slip_id": s.id,
+                    "employee_id": s.employee_id,
+                    "base_salary": s.base_salary,
+                    "hours_worked": s.hours_worked,
+                    "overtime_hours": s.overtime_hours,
+                    "salary": s.salary,
+                    "month": s.month,
+                    "year": s.year,
+                    "strategy": s.strategy,
+                    "generated_at": s.generated_at.strftime("%Y-%m-%d %H:%M:%S")
+                } for s in slips
+            ]
+        finally:
+            db.close()
+    
+    def get_payslip_by_id(self, payslip_id):
+        db = SessionLocal()
+        try:
+            slip = db.query(Payslip).filter(Payslip.id == payslip_id).first()
+            if slip:
+                return {
+                    "slip_id": slip.id,
+                    "employee_id": slip.employee_id,
+                    "base_salary": slip.base_salary,
+                    "hours_worked": slip.hours_worked,
+                    "overtime_hours": slip.overtime_hours,
+                    "salary": slip.salary,
+                    "month": slip.month,
+                    "year": slip.year,
+                    "strategy": slip.strategy,
+                    "generated_at": slip.generated_at.strftime("%Y-%m-%d %H:%M:%S")
+                }
+            return None
+        finally:
+            db.close()
+
+    def get_payslips_by_employees(self, employee_ids: List[str]):
+        db = SessionLocal()
+        try:
+            slips = db.query(Payslip).filter(Payslip.employee_id.in_(employee_ids)).all()
+            return [
+                {
+                    "slip_id": s.id,
+                    "employee_id": s.employee_id,
+                    "base_salary": s.base_salary,
+                    "hours_worked": s.hours_worked,
+                    "overtime_hours": s.overtime_hours,
+                    "salary": s.salary,
+                    "month": s.month,
+                    "year": s.year,
+                    "strategy": s.strategy,
+                    "generated_at": s.generated_at.strftime("%Y-%m-%d %H:%M:%S")
+                } for s in slips
+            ]
+        finally:
+            db.close()

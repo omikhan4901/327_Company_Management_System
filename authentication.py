@@ -2,56 +2,21 @@
 
 import hashlib
 import uuid
-import json
 import os
 from threading import Lock
-
-
-class User:
-    """
-    Represents a user in the system with username, password hash, and role.
-    """
-    def __init__(self, username, password_hash, role):
-        self.username = username
-        self.password_hash = password_hash
-        self.role = role
-
-    def check_password(self, password):
-        return self.password_hash == hashlib.sha256(password.encode()).hexdigest()
-
-    def to_dict(self):
-        return {
-            "password_hash": self.password_hash,
-            "role": self.role
-        }
-
-    @staticmethod
-    def from_dict(username, data):
-        return User(username, data["password_hash"], data["role"])
-
+import uuid
+from database import SessionLocal, User
+from typing import Optional, List
 
 class AuthManager:
-    """
-    Singleton class to manage user authentication and session tokens.
-    Supports file-based persistence for user storage.
-    """
-
     __instance = None
     __lock = Lock()
-    __counter = 0   # instance counter
-    _user_file = "users.json"
-
-    # Private constructor
+    
     def __init__(self):
         if AuthManager.__instance is not None:
             raise Exception("This class is a singleton! Use get_instance().")
-        AuthManager.__counter += 1
-        print(f"[INFO] New AuthManager instance created. Total instances: {AuthManager.__counter}")
-        self.users = {}
         self.sessions = {}
-        self._load_users_from_file()
 
-    # Public static method to get the instance
     @staticmethod
     def get_instance():
         with AuthManager.__lock:
@@ -59,52 +24,37 @@ class AuthManager:
                 AuthManager.__instance = AuthManager()
             return AuthManager.__instance
 
-
-    def _load_users_from_file(self):
-        """
-        Loads user data from a JSON file.
-        """
-        if os.path.exists(self._user_file):
-            with open(self._user_file, "r") as f:
-                try:
-                    data = json.load(f)
-                    self.users = {
-                        username: User.from_dict(username, udata)
-                        for username, udata in data.items()
-                    }
-                    print(f"[INFO] Loaded {len(self.users)} users from {self._user_file}")
-                except json.JSONDecodeError:
-                    print("[ERROR] Failed to decode user file. Starting with empty user list.")
-        else:
-            print("[INFO] No user file found. Starting fresh.")
-
-    def _save_users_to_file(self):
-        """
-        Saves user data to a JSON file.
-        """
-        data = {username: user.to_dict() for username, user in self.users.items()}
-        with open(self._user_file, "w") as f:
-            json.dump(data, f, indent=4)
-        print(f"[INFO] Saved {len(self.users)} users to {self._user_file}")
+    def _get_user(self, db, username):
+        return db.query(User).filter(User.username == username).first()
 
     def register_user(self, username, password, role):
-        if username in self.users:
-            return False, "User already exists."
-        password_hash = hashlib.sha256(password.encode()).hexdigest()
-        self.users[username] = User(username, password_hash, role)
-        self._save_users_to_file()
-        return True, "User registered successfully."
+        db = SessionLocal()
+        try:
+            if self._get_user(db, username):
+                return False, "User already exists."
+            password_hash = hashlib.sha256(password.encode()).hexdigest()
+            fixed_role = "employee"  # New users are always employees
+            new_user = User(username=username, password_hash=password_hash, role=fixed_role)
+            db.add(new_user)
+            db.commit()
+            return True, "User registered successfully."
+        finally:
+            db.close()
 
     def login(self, username, password):
-        user = self.users.get(username)
-        if not user:
-            return False, "User not found."
-        if not user.check_password(password):
-            return False, "Invalid password."
+        db = SessionLocal()
+        try:
+            user = self._get_user(db, username)
+            if not user:
+                return False, "User not found."
+            if user.password_hash != hashlib.sha256(password.encode()).hexdigest():
+                return False, "Invalid password."
 
-        token = str(uuid.uuid4())
-        self.sessions[token] = username
-        return True, token
+            token = str(uuid.uuid4())
+            self.sessions[token] = username
+            return True, token
+        finally:
+            db.close()
 
     def logout(self, token):
         if token in self.sessions:
@@ -117,9 +67,67 @@ class AuthManager:
 
     def get_user_role(self, token):
         username = self.sessions.get(token)
-        if username and username in self.users:
-            return self.users[username].role
+        if username:
+            db = SessionLocal()
+            try:
+                user = self._get_user(db, username)
+                return user.role if user else None
+            finally:
+                db.close()
         return None
-
+    
     def get_logged_in_user(self, token):
         return self.sessions.get(token)
+
+    def update_user_role(self, admin_username, target_username, new_role, new_department_id=None): # <-- Corrected signature
+        """Allows an admin to change a user's role and department, with restrictions."""
+        db = SessionLocal()
+        try:
+            valid_roles = ["employee", "manager", "admin"]
+            if new_role not in valid_roles:
+                return False, "Invalid role."
+            
+            target_user = self._get_user(db, target_username)
+            if not target_user:
+                return False, "User not found."
+
+            # Admin cannot change another admin's role
+            if target_user.role == "admin" and target_user.username != admin_username:
+                return False, "Cannot change the role of another admin."
+            
+            target_user.role = new_role
+            target_user.department_id = new_department_id # <-- Ensure this line is present
+            
+            db.commit()
+            return True, f"Role for {target_username} updated to {new_role} and department set."
+        finally:
+            db.close()
+
+    def get_all_users(self):
+        db = SessionLocal()
+        try:
+            users = db.query(User).all()
+            return [{"username": u.username, "role": u.role, "department_id": u.department_id} for u in users]
+        finally:
+            db.close()
+    def create_default_admin(self):
+        db = SessionLocal()
+        try:
+            admin_user = db.query(User).filter(User.role == "admin").first()
+            if not admin_user:
+                # No admin user exists, create one
+                username = "admin"
+                password_hash = hashlib.sha256("admin".encode()).hexdigest()  # Default password is "admin"
+                new_admin = User(username=username, password_hash=password_hash, role="admin")
+                db.add(new_admin)
+                db.commit()
+                print("Default admin user 'admin' created with password 'admin'.")
+        finally:
+            db.close()
+    def get_users_by_department_ids(self, department_ids: List[int]):
+        db = SessionLocal()
+        try:
+            users = db.query(User).filter(User.department_id.in_(department_ids)).all()
+            return [{"username": u.username, "role": u.role, "department_id": u.department_id} for u in users]
+        finally:
+            db.close()

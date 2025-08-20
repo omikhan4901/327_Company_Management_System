@@ -1,58 +1,65 @@
 [
     {
-        "id": "da848ac5-836a-4414-94a1-aff362a9fbcc",
+        "id": "85fff864-dbf1-4b57-a9c8-1e9ea8707c35",
         "employee_id": "john",
         "date": "2025-08-08",
         "check_in": "15:59:02",
         "check_out": "15:59:02"
     },
     {
-        "id": "34e2668f-3006-4358-a72d-2a8c73569a0f",
+        "id": "4bce0054-d855-453c-aff8-94e5aca48acd",
         "employee_id": "Omi",
         "date": "2025-08-19",
         "check_in": "23:35:47",
         "check_out": "23:36:12"
     },
     {
-        "id": "24f8ef9d-e798-44b5-afd1-768c35143618",
+        "id": "d0b02147-9d59-402a-be71-b62bbc9a7a78",
         "employee_id": "Susmit",
         "date": "2025-08-19",
         "check_in": "23:44:41",
         "check_out": "23:45:02"
     },
     {
-        "id": "1209d0dd-98e3-4d1f-b08f-62c454afc3bc",
+        "id": "58e1cb21-ca2a-44f2-98cd-2320eac6ed4f",
         "employee_id": "Alvee",
         "date": "2025-08-19",
         "check_in": "23:49:23",
         "check_out": "23:50:02"
     },
     {
-        "id": "04366c4a-de83-4b2b-ab32-90189943455b",
+        "id": "61bd39dc-4628-4d6f-a05d-3b53b669d9b6",
         "employee_id": "admin3",
         "date": "2025-08-19",
         "check_in": "23:58:37",
         "check_out": "23:59:03"
     },
     {
-        "id": "c55a4af7-2b9f-46f3-bf8c-0272f809dc76",
+        "id": "115ff5ea-da27-4727-9a35-4dd605937332",
         "employee_id": "Omi",
         "date": "2025-08-20",
         "check_in": "00:12:21",
         "check_out": "00:13:23"
     },
     {
-        "id": "e285087d-f066-4db3-821a-1cf6c866da36",
+        "id": "c489baf7-3f5d-421e-b1b7-1be3450d0c8d",
         "employee_id": "admin7",
         "date": "2025-08-20",
         "check_in": "01:44:42",
         "check_out": "01:46:23"
     },
     {
-        "id": "82530016-81f1-49a6-b938-14351f577bf1",
+        "id": "992f89fe-db4a-43e6-bda7-68615b440bf2",
         "employee_id": "manager7",
         "date": "2025-08-20",
         "check_in": "01:48:04",
+        "check_out": null
+    },
+    {
+        "id": "733f543a-9c3a-453b-9b33-88814c52515d",
+        "employee_id": "123",
+        "date": "2025-08-20",
+        "check_in": "03:13:09",
         "check_out": null
     }
 ]

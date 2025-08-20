@@ -65,10 +65,18 @@ class InAppNotifier(NotificationObserver):
 
 class EmailNotifier(NotificationObserver):
     def __init__(self, subject: NotificationSubject):
-        subject.register_observer(self)   # auto-register
+        subject.register_observer(self)
+
+    def _send_email(self, recipient, message):
+        """Simulates sending an email via an external service."""
+        print(f"--- [Email Service] Sending email to {recipient} ---")
+        print(f"Subject: System Notification")
+        print(f"Body: {message}")
+        print("--------------------------------------------------")
 
     def update(self, message, recipient):
-        print(f"[Email] To: {recipient} | {message}")
+        # We will assume this calls a real email API
+        self._send_email(recipient, message)
 
 
 class NotificationManager:

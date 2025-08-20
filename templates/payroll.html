@@ -1,86 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Payroll - {{ username }}</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css" />
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin:0; padding:0; }
-        header { background-color:#1f2937; color:#fff; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
-        header h1 { margin:0; font-size:24px; }
-        nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:bold; }
-        nav a:hover { text-decoration:underline; }
-        main { padding:30px; }
-        form { background-color:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.05); margin-bottom:30px; }
-        form label { display:block; margin-top:10px; font-weight:bold; }
-        form input { width:100%; padding:8px; margin-top:5px; border-radius:6px; border:1px solid #ccc; }
-        form button { margin-top:15px; padding:10px 20px; background-color:#2563eb; color:#fff; border:none; border-radius:6px; cursor:pointer; }
-        form button:hover { background-color:#1e40af; }
-        table { width:100%; border-collapse:collapse; background-color:#fff; border-radius:10px; overflow:hidden; box-shadow:0 0 10px rgba(0,0,0,0.05); }
-        table th, table td { padding:12px; text-align:center; border-bottom:1px solid #ddd; }
-        table th { background-color:#1f2937; color:#fff; }
-        table tr:last-child td { border-bottom:none; }
-        .message { color: green; margin-bottom:15px; font-weight:bold; }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #1f2937;
+        color: #fff;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: bold;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      main {
+        padding: 30px;
+      }
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+      }
+      form label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      form input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+      form button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      form button:hover {
+        background-color: #1e40af;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      }
+      table th,
+      table td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+      }
+      table th {
+        background-color: #1f2937;
+        color: #fff;
+      }
+      table tr:last-child td {
+        border-bottom: none;
+      }
+      .message {
+        color: green;
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Payroll</h1>
-        <nav>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/logout">Logout</a>
-        </nav>
+      <h1>Payroll</h1>
+      <nav>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+      </nav>
     </header>
     <main>
-        <h2>Welcome, {{ username }} ({{ role }})</h2>
+      <h2>Welcome, {{ username }} ({{ role }})</h2>
 
-        {% if message %}
-        <p class="message">{{ message }}</p>
-        {% endif %}
+      {% if message %}
+      <p class="message">{{ message }}</p>
+      {% endif %} {% if role == 'admin'%}
+      <h3>Generate Payslip</h3>
+      <form method="post" action="/payroll/generate">
+        <label>Employee Username:</label>
+        <select name="employee_id" required>
+          {% for user_data in all_users %}
+          <option value="{{ user_data.username }}">
+            {{ user_data.username }}
+          </option>
+          {% endfor %}
+        </select>
+        <label>Base Salary:</label>
+        <input type="number" name="base_salary" required />
 
-        <h3>Generate Payslip</h3>
-        <form method="post" action="/payroll/generate">
-            <label>Base Salary:</label>
-            <input type="number" name="base_salary" required>
+        <label>Hours Worked:</label>
+        <input type="number" name="hours_worked" step="0.01" required />
 
-            <label>Hours Worked:</label>
-            <input type="number" name="hours_worked" step="0.01" required>
+        <label>Overtime Hours:</label>
+        <input type="number" name="overtime_hours" step="0.01" required />
 
-            <label>Overtime Hours:</label>
-            <input type="number" name="overtime_hours" step="0.01" required>
+        <label>Month:</label>
+        <input type="text" name="month" required />
 
-            <label>Month:</label>
-            <input type="text" name="month" required>
+        <label>Year:</label>
+        <input type="number" name="year" required />
 
-            <label>Year:</label>
-            <input type="number" name="year" required>
-
-            <button type="submit">Generate Payslip</button>
-        </form>
-
-        <h3>Previous Payslips</h3>
-        <table>
-            <tr>
-                <th>Month</th>
-                <th>Year</th>
-                <th>Base Salary</th>
-                <th>Hours Worked</th>
-                <th>Overtime</th>
-                <th>Net Salary</th>
-                <th>Generated At</th>
-            </tr>
-            {% for slip in slips %}
-            <tr>
-                <td>{{ slip.month }}</td>
-                <td>{{ slip.year }}</td>
-                <td>{{ slip.base_salary }}</td>
-                <td>{{ slip.hours_worked }}</td>
-                <td>{{ slip.overtime_hours }}</td>
-                <td>{{ slip.salary }}</td>
-                <td>{{ slip.generated_at }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <button type="submit">Generate Payslip</button>
+      </form>
+      {% endif %}
+      <h3>Previous Payslips</h3>
+      <table>
+        <tr>
+          {% if role == 'admin' or role == 'manager' %}
+          <th>Employee ID</th>
+          {% endif %}
+          <th>Month</th>
+          <th>Year</th>
+          <th>Base Salary</th>
+          <th>Hours Worked</th>
+          <th>Overtime</th>
+          <th>Net Salary</th>
+          <th>Generated At</th>
+          <th>PDF</th>
+        </tr>
+        {% for slip in slips %}
+        <tr>
+          {% if role == 'admin' or role == 'manager' %}
+          <td>{{ slip.employee_id }}</td>
+          {% endif %} {# New cell for Employee ID #}
+          <td>{{ slip.month }}</td>
+          <td>{{ slip.year }}</td>
+          <td>{{ slip.base_salary }}</td>
+          <td>{{ slip.hours_worked }}</td>
+          <td>{{ slip.overtime_hours }}</td>
+          <td>{{ slip.salary }}</td>
+          <td>{{ slip.generated_at }}</td>
+          <td>
+            <a href="/payroll/download/{{ slip.slip_id }}" download>Download</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
     </main>
-</body>
+  </body>
 </html>

@@ -37,8 +37,9 @@
 
         {% if message %}
         <p class="message">{{ message }}</p>
-        {% endif %}
-
+        {% endif %} 
+        
+        {% if role == 'admin' or role == 'manager' %}
         <h2>Create Task</h2>
         <form method="post" action="/tasks/create">
             <label>Title:</label>
@@ -48,7 +49,11 @@
             <textarea name="description" rows="3" required></textarea>
             
             <label>Assign To (Username):</label>
-            <input type="text" name="assigned_to" required>
+            <select name="assigned_to" required>
+                {% for user_data in all_users %}
+                <option value="{{ user_data.username }}">{{ user_data.username }}</option>
+                {% endfor %}
+            </select>
             
             <label>Deadline (YYYY-MM-DD):</label>
             <input type="text" name="deadline" required>
@@ -62,26 +67,41 @@
 
             <button type="submit">Create Task</button>
         </form>
+        {% endif %}
 
         <h2>Your Tasks</h2>
         <table>
             <tr>
+                <th>Assigned To</th> {# This column is now always visible #}
                 <th>Title</th>
                 <th>Description</th>
                 <th>Deadline</th>
                 <th>Status</th>
                 <th>Created At</th>
+                <th>Actions</th>
             </tr>
             {% for task in tasks %}
             <tr>
+                <td>{{ task.assigned_to }}</td> {# This cell is now always visible #}
                 <td>{{ task.title }}</td>
                 <td>{{ task.description }}</td>
                 <td>{{ task.deadline }}</td>
                 <td>{{ task.status }}</td>
                 <td>{{ task.created_at }}</td>
+                <td>
+                    <form action="/tasks/update_status" method="post" style="display:inline;">
+                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                        <select name="new_status">
+                            <option value="Not Started" {% if task.status == 'Not Started' %}selected{% endif %}>Not Started</option>
+                            <option value="In Progress" {% if task.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                            <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
             </tr>
             {% else %}
-            <tr><td colspan="5">No tasks assigned yet.</td></tr>
+            <tr><td colspan="7">No tasks assigned yet.</td></tr> {# Updated colspan to 7 #}
             {% endfor %}
         </table>
     </main>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Department Management - {{ username }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin:0; padding:0; }
+        header { background-color:#1f2937; color:#fff; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
+        header h1 { margin:0; font-size:24px; }
+        nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:bold; }
+        nav a:hover { text-decoration:underline; }
+        main { padding:30px; }
+        .form-section, .table-section { background-color:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.05); margin-bottom:30px; }
+        h2, h3 { color:#1f2937; margin-bottom:15px; }
+        form label { display:block; margin-top:10px; font-weight:bold; }
+        form input, form select { width:100%; padding:8px; margin-top:5px; border-radius:5px; border:1px solid #ccc; }
+        form button { margin-top:15px; padding:10px 20px; background-color:#2563eb; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+        form button:hover { background-color:#1e40af; }
+        table { width:100%; border-collapse:collapse; margin-top:20px; }
+        table th, table td { padding:12px; text-align:left; border-bottom:1px solid #ddd; }
+        table th { background-color:#f3f4f6; }
+        .message { color: green; margin-bottom:20px; font-weight:bold; }
+        .dept-tree ul { list-style: none; padding-left: 20px; }
+        .dept-tree li { margin-bottom: 5px; }
+        .dept-tree .composite { font-weight: bold; color: #0056b3; }
+        .dept-tree .leaf { color: #333; }
+    </style>
+</head>
+<body>
+        {# Macro to render recursive department tree #}
+    {% macro render_department_node(node) %}
+        {% if node.type == 'composite' %}
+            <li class="composite">{{ node.name }} (ID: {{ node.id }})
+                <ul>
+                    {% for child in node.children %}
+                        {{ render_department_node(child) }}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% else %}
+            <li class="leaf">{{ node.name }} (ID: {{ node.id }})</li>
+        {% endif %}
+    {% endmacro %}
+    <header>
+        <h1>Department Management</h1>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Welcome, {{ username }} ({{ role }})</h2>
+
+        {% if message %}
+        <p class="message">{{ message }}</p>
+        {% endif %}
+
+        <div class="form-section">
+            <h3>Create New Department</h3>
+            <form action="/admin/departments/create" method="post">
+                <label for="name">Department Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="parent_id">Parent Department (Optional):</label>
+                <select id="parent_id" name="parent_id">
+                    <option value="0">-- None (Top Level) --</option>
+                    {% for dept in departments %}
+                    <option value="{{ dept.id }}">{{ dept.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Create Department</button>
+            </form>
+        </div>
+
+        <div class="table-section">
+            <h3>Existing Departments</h3>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Parent ID</th>
+                    <th>Actions</th>
+                </tr>
+                {% for dept in departments %}
+                <tr>
+                    <td>{{ dept.id }}</td>
+                    <td>{{ dept.name }}</td>
+                    <td>{{ dept.parent_department_id if dept.parent_department_id else 'N/A' }}</td>
+                    <td>
+                        <form action="/admin/departments/update" method="post" style="display:inline;">
+                            <input type="hidden" name="dept_id" value="{{ dept.id }}">
+                            <input type="text" name="new_name" value="{{ dept.name }}" required style="width:auto; display:inline-block;">
+                            <select name="new_parent_id" style="width:auto; display:inline-block;">
+                                <option value="0">-- None --</option>
+                                {% for p_dept in departments %}
+                                <option value="{{ p_dept.id }}" {% if p_dept.id == dept.parent_department_id %}selected{% endif %}>{{ p_dept.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                        <form action="/admin/departments/delete" method="post" style="display:inline; margin-left: 10px;">
+                            <input type="hidden" name="dept_id" value="{{ dept.id }}">
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this department? This cannot be undone.')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">No departments found.</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="table-section">
+            <h3>Department Hierarchy</h3>
+            <div class="dept-tree">
+                <ul>
+                    {% for root_dept in department_tree %}
+                        {{ render_department_node(root_dept) }}
+                    {% else %}
+                        <li>No departments to display hierarchy.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -127,15 +127,21 @@
         </div>
 
         <h2>Attendance Records</h2>
-        <table>
+       <table>
             <tr>
+                {% if role == 'admin' or role == 'manager' %}
+                <th>Employee ID</th>
+                {% endif %}
                 <th>Date</th>
                 <th>Check-in</th>
                 <th>Check-out</th>
                 <th>Hours Worked</th>
             </tr>
-            {% for record in records %}
+             {% for record in records %}
             <tr>
+                {% if role == 'admin' or role == 'manager' %}
+                <td>{{ record.employee_id }}</td>
+                {% endif %}
                 <td>{{ record.date }}</td>
                 <td>{{ record.check_in or '-' }}</td>
                 <td>{{ record.check_out or '-' }}</td>

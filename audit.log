@@ -1,0 +1,155 @@
+{"timestamp": "2025-08-20 03:45:14", "username": "11", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:45:20", "username": null, "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 03:45:22", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:45:25", "username": null, "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 03:45:28", "username": "1231", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:47:17", "username": null, "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 03:47:21", "username": "1231", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:47:30", "username": "1231", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 03:47:33", "username": "1231", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:51:09", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:53:01", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:55:47", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:56:34", "username": "123", "action": "Task Status Updated", "details": {"task_id": "cd19e436-659e-46c6-aa7c-0fbf7709a4c6", "new_status": "Completed"}}
+{"timestamp": "2025-08-20 03:59:10", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:59:31", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 03:59:37", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 03:59:56", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:22:01", "username": "123", "action": "Login Failed", "details": {"reason": "Invalid credentials"}}
+{"timestamp": "2025-08-20 04:22:19", "username": "123", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 04:22:24", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:22:27", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:22:30", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:22:39", "username": "1234", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 04:26:14", "username": null, "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:26:18", "username": "admin ", "action": "Login Failed", "details": {"reason": "Invalid credentials"}}
+{"timestamp": "2025-08-20 04:26:35", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:28:26", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:29:52", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:32:16", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:34:57", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:38:35", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:39:07", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:40:47", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:43:32", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:46:34", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:48:10", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:53:17", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:53:55", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:54:20", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:54:26", "username": "3241", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 04:54:28", "username": "3241", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:54:32", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:54:52", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:55:00", "username": "4441", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 04:55:01", "username": "4441", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:55:05", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:57:43", "username": "admin", "action": "Task Status Updated", "details": {"task_id": "5", "new_status": "In Progress"}}
+{"timestamp": "2025-08-20 04:57:51", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:57:58", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:58:20", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:58:25", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 04:59:32", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 04:59:46", "username": "2221019", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 04:59:58", "username": "2221019", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 05:00:04", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:00:29", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 05:00:32", "username": "2221019", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:00:54", "username": "2221019", "action": "Task Status Updated", "details": {"task_id": "9", "new_status": "In Progress"}}
+{"timestamp": "2025-08-20 05:01:02", "username": "2221019", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 05:03:10", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:12:35", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:31:27", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:35:41", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:37:44", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:40:33", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:42:53", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:46:06", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:49:26", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:50:59", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 05:52:14", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:01:56", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:04:32", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:06:13", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:08:52", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:29:40", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:31:48", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:33:11", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:37:24", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:44:06", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:46:17", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:48:39", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:58:23", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 06:59:47", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:01:34", "username": "123", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 07:02:02", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:02:06", "username": "321", "action": "Login Failed", "details": {"reason": "Invalid credentials"}}
+{"timestamp": "2025-08-20 07:02:10", "username": "321", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 07:02:18", "username": "321", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:02:23", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:03:16", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:03:19", "username": "321", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:03:25", "username": "321", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:03:28", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:03:41", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:03:45", "username": "111", "action": "Login Failed", "details": {"reason": "Invalid credentials"}}
+{"timestamp": "2025-08-20 07:03:49", "username": "111", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 07:03:54", "username": "111", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:03:57", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:07:12", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:07:28", "username": "admin", "action": "Task Created", "details": {"title": "aaaa", "assigned_to": "321"}}
+{"timestamp": "2025-08-20 07:07:44", "username": "admin", "action": "Task Created", "details": {"title": "a", "assigned_to": "111"}}
+{"timestamp": "2025-08-20 07:07:51", "username": "admin", "action": "Task Created", "details": {"title": "asd", "assigned_to": "admin"}}
+{"timestamp": "2025-08-20 07:08:01", "username": "admin", "action": "Task Created", "details": {"title": "asd", "assigned_to": "123"}}
+{"timestamp": "2025-08-20 07:08:13", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:08:17", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:12:07", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:12:22", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:12:40", "username": "111", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:12:50", "username": "321", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:12:55", "username": "321", "action": "Task Status Updated", "details": {"task_id": "1", "new_status": "Completed"}}
+{"timestamp": "2025-08-20 07:12:59", "username": "321", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:13:02", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:13:26", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:13:30", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:15:06", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:15:26", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:15:28", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:23:20", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:26:36", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:26:56", "username": "admin", "action": "Payslip Generated", "details": {"employee_id": "admin", "salary": 515.62}}
+{"timestamp": "2025-08-20 07:27:17", "username": "admin", "action": "Payslip Generated", "details": {"employee_id": "321", "salary": 13043.02}}
+{"timestamp": "2025-08-20 07:27:32", "username": "admin", "action": "Payslip Generated", "details": {"employee_id": "123", "salary": 245599.42}}
+{"timestamp": "2025-08-20 07:27:38", "username": "admin", "action": "Payslip Generated", "details": {"employee_id": "321", "salary": 59.58}}
+{"timestamp": "2025-08-20 07:27:44", "username": "admin", "action": "Payslip Generated", "details": {"employee_id": "111", "salary": 152392.64}}
+{"timestamp": "2025-08-20 07:27:49", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:27:54", "username": "321", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:28:00", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:28:22", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:28:26", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:28:38", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 07:28:43", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:33:23", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:33:42", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 07:42:13", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 10:19:12", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 10:19:33", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 10:19:36", "username": "123", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 10:19:39", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 10:19:41", "username": "321", "action": "Login Failed", "details": {"reason": "Invalid credentials"}}
+{"timestamp": "2025-08-20 10:19:45", "username": "321", "action": "Registration Successful", "details": {}}
+{"timestamp": "2025-08-20 10:19:49", "username": "321", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 10:19:53", "username": "admin", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 10:20:59", "username": "admin", "action": "Payslip Generated", "details": {"employee_id": "admin", "salary": 6097.81}}
+{"timestamp": "2025-08-20 10:21:25", "username": "admin", "action": "Payslip Generated", "details": {"employee_id": "123", "salary": 8007.81}}
+{"timestamp": "2025-08-20 10:21:42", "username": "admin", "action": "Payslip Generated", "details": {"employee_id": "321", "salary": 2037.19}}
+{"timestamp": "2025-08-20 10:21:59", "username": "admin", "action": "Task Created", "details": {"title": "aaa", "assigned_to": "321"}}
+{"timestamp": "2025-08-20 10:22:18", "username": "admin", "action": "Task Created", "details": {"title": "qqq", "assigned_to": "123"}}
+{"timestamp": "2025-08-20 10:22:21", "username": "admin", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 10:22:24", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 10:22:38", "username": "123", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 10:22:42", "username": "321", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 10:22:47", "username": "321", "action": "Task Status Updated", "details": {"task_id": "1", "new_status": "In Progress"}}
+{"timestamp": "2025-08-20 10:22:59", "username": "321", "action": "Logged out", "details": {}}
+{"timestamp": "2025-08-20 10:23:02", "username": "123", "action": "Login Successful", "details": {}}
+{"timestamp": "2025-08-20 10:23:06", "username": "123", "action": "Logged out", "details": {}}
