@@ -58,9 +58,8 @@ Changes made during Phase 0, at the owner's request:
   every variable.
 
 **Status of the legacy tag.** The tag was created locally on `1482a71`. Pushing it from
-this session was refused (HTTP 403), because this environment's git access only allows
-pushing to one branch. The owner needs to push it once from their own machine (see the
-summary message).
+this session was refused (HTTP 403): this environment's git access accepts branch pushes
+but not tag pushes. The owner needs to push it once from their own machine (Q2).
 
 ---
 
@@ -963,8 +962,7 @@ not all at once, and some parts cost money or time that the budget does not cove
    repository be called, and should it be **public** (free CI minutes, free CodeQL and
    secret scanning, and visible on your portfolio) or private? Recommendation: public,
    under your account. Can you create the empty repo, or should I try to create it from
-   here? This session could not push a tag to the legacy repo, so I may not be able to
-   push to a new repo either until it is added to the session.
+   here? A new repo also has to be added to this session before I can push to it.
 2. **Legacy tag.** From your machine, run
    `git fetch origin && git tag -a legacy-nsu-327 1482a71 -m "Original NSU CSE327 group project" && git push origin legacy-nsu-327`.
    Or tell me if you'd rather I use a different approach.
