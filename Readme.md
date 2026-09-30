@@ -1,3 +1,7 @@
+> **This is the original CSE327 group project, kept as it was.** It has been rewritten from
+> scratch as a multi-tenant SaaS: **[CompanyMgmt](https://github.com/omikhan4901/companymgmt)**.
+> The planning document for that rewrite is in [`docs/IMPLEMENTATION_PLAN.md`](docs/IMPLEMENTATION_PLAN.md).
+
 ## Group Members
 
 | Name | ID / Code |
